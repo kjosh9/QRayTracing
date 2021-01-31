@@ -7,7 +7,15 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+        renderer.cpp \
+        camera.cpp \
+        light.cpp \
+        plane.cpp \
+        point3d.cpp \
+        shadedObject.cpp \
+        scene.cpp \
+        sphere.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,6 +26,16 @@ QML_IMPORT_PATH =
 QML_DESIGNER_IMPORT_PATH =
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
+# qnx: target.path = /tmp/$${TARGET}/bin
+# else: unix:!android: target.path = /opt/$${TARGET}/bin
+# !isEmpty(target.path): INSTALLS += target
+
+HEADERS += \
+    renderer.hpp \
+    camera.hpp \
+    light.hpp \
+    plane.hpp \
+    point3d.hpp \
+    scene.hpp \
+    sphere.hpp \
+    shadedObject.hpp

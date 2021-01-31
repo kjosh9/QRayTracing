@@ -1,22 +1,22 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QtQuick>
+#include <QObject>
+#include "renderer.hpp"
 
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-
     QGuiApplication app(argc, argv);
-
-    QQmlApplicationEngine engine;
+    app.setOrganizationDomain("Josh Labs");
+    app.setApplicationName("kjosh9");
+    QQuickView * view = new QQuickView;
+    QQmlEngine * engine = view->engine();
+    engine->addImageProvider(QLatin1String("rendered_image"), new renderer);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-                     &app, [url](QObject *obj, const QUrl &objUrl) {
-        if (!obj && url == objUrl)
-            QCoreApplication::exit(-1);
-    }, Qt::QueuedConnection);
-    engine.load(url);
-
+    view->setSource(url);
+    view->show();
     return app.exec();
 }
