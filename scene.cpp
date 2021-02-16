@@ -2,8 +2,8 @@
 #include <QList>
 #include <vector>
 #include <limits>
-#include <future>
 #include <thread>
+#include <mutex>
 #include <chrono>
 
 Scene::Scene(){
@@ -13,13 +13,18 @@ Scene::Scene(){
 Scene::Scene(Camera * camera, 
              QVector<Light*> lights, 
              QVector<ShadedObject*> objects, 
-             int threads)
+             int /*threads*/)
 {
     _camera = camera;
     _lights = lights;
     _objects = objects;
-    _threads  = threads;
     focalPoint = camera->normal() * (-1 * camera->focus());
+    _threads = std::thread::hardware_concurrency();
+    if (_threads == 0) {
+        _threads = 1;
+    } else if (_threads > 2) {
+        _threads = _threads/ 2;
+    }
 }
 
 Scene::~Scene(){
@@ -86,16 +91,19 @@ point3D Scene::getPixel(const int &i,
     return pixColor;
 }
 
-void getRange(int bottom, int top, 
+void getRange(int start_pix,
+              int finish_pix,
               int row_length,
               Scene *scene,
               int num,
               std::vector<point3D> & pixMatrix){
-
-    qDebug() << num << ": bottom: " << bottom;
-    qDebug() << num << ":    top: " << top;
-    for ( int i = bottom; i < top; i++){
-        pixMatrix[i] = scene->getPixel(i/row_length, i%row_length);
+    std::mutex m;
+    qDebug() << num << ": start: " << start_pix;
+    qDebug() << num << ":finish: " << finish_pix;
+    for ( int i = start_pix; i < finish_pix; i++){
+        auto value = scene->getPixel(i/row_length, i%row_length);
+        std::lock_guard<std::mutex> lk(m);
+        pixMatrix[i] = value;
     }
 }
 
@@ -113,40 +121,37 @@ QImage Scene::renderScene(){
     std::chrono::time_point<std::chrono::system_clock>start, end;
     std::chrono::duration<double> elapsed_seconds;
     qDebug() << _threads;
-    
-
     start = std::chrono::system_clock::now();
-
-    std::vector<std::thread> threadObjs;
-    int bottom = 0;
-    int top = pixMatrix.size()/_threads;
-    for (int c = 0; c + 1 < _threads; c++) {
-        threadObjs.push_back(std::thread(getRange, bottom, top
-                                         , _camera->size().first
-                                         , this
-                                         , c
-                                         , std::ref(pixMatrix)));
-        bottom = top+1;
-        top = top+pixMatrix.size()/_threads;
+    std::vector<std::thread> threads;
+    int start_pix = 0;
+    int finish_pix = pixMatrix.size()/_threads;
+    int range = finish_pix;
+    qDebug() << "Total pix: " << pixMatrix.size();
+    qDebug() << "Range: " << range;
+    for (int i = 0; i < _threads; i++) {
+        threads.push_back(std::thread(getRange,
+                                      start_pix,
+                                      finish_pix,
+                                      _camera->size().first,
+                                      this,
+                                      i,
+                                      std::ref(pixMatrix)));
+        start_pix = finish_pix+1;
+        finish_pix = range+finish_pix;
     }
-    threadObjs.push_back(std::thread(getRange, bottom, pixMatrix.size()
-                                     , _camera->size().first
-                                     , this
-                                     , int(200)
-                                     , std::ref(pixMatrix)));
-    for (int c = 0; c < _threads; c++) {
-        threadObjs[c].join();
+    for (auto & thread: threads) {
+        thread.join();
     }
 
-    for( int c = 0; c < pixMatrix.size(); c++) {
-        if(maxRed < pixMatrix[c].x()){
-            maxRed = pixMatrix[c].x();
+    for(point3D & pixel: pixMatrix) {
+        if(maxRed < pixel.x()){
+            maxRed = pixel.x();
         }
-        if(maxGreen < pixMatrix[c].y()){
-            maxGreen = pixMatrix[c].y();
+        if(maxGreen < pixel.y()){
+            maxGreen = pixel.y();
         }
-        if(maxBlue < pixMatrix[c].z()){
-            maxBlue = pixMatrix[c].z();
+        if(maxBlue < pixel.z()){
+            maxBlue = pixel.z();
         }
     }
 
@@ -158,15 +163,17 @@ QImage Scene::renderScene(){
     start = std::chrono::system_clock::now();
  
    //loop through the pixMatrix to create the image
-    for(int k = 0; k < pixMatrix.size(); k++){
+    int i{0};
+    for(point3D & pixel: pixMatrix){
         QColor newColor;
         if(maxRed > 255 || maxBlue > 255 || maxGreen > 255){
-            newColor.setRgb(pixMatrix[k].x()*(255/maxRed), pixMatrix[k].y()*(255/maxGreen), pixMatrix[k].z()*(255/maxBlue));
+            newColor.setRgb(pixel.x()*(255/maxRed), pixel.y()*(255/maxGreen), pixel.z()*(255/maxBlue));
         }
         else{
-            newColor.setRgb(pixMatrix[k].x(), pixMatrix[k].y(), pixMatrix[k].z());
+            newColor.setRgb(pixel.x(), pixel.y(), pixel.z());
         }
-        image.setPixel((k/_camera->size().first),(k%_camera->size().first),newColor.rgb());
+        image.setPixel((i/_camera->size().first),(i%_camera->size().first),newColor.rgb());
+        i++;
     }
     
     end = std::chrono::system_clock::now();
