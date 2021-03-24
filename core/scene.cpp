@@ -98,8 +98,6 @@ void getRange(int start_pix,
               int num,
               std::vector<point3D> & pixMatrix){
     std::mutex m;
-    qDebug() << num << ": start: " << start_pix;
-    qDebug() << num << ":finish: " << finish_pix;
     for ( int i = start_pix; i < finish_pix; i++){
         auto value = scene->getPixel(i/row_length, i%row_length);
         std::lock_guard<std::mutex> lk(m);
@@ -126,8 +124,6 @@ QImage Scene::renderScene(){
     int start_pix = 0;
     int finish_pix = pixMatrix.size()/_threads;
     int range = finish_pix;
-    qDebug() << "Total pix: " << pixMatrix.size();
-    qDebug() << "Range: " << range;
     for (int i = 0; i < _threads; i++) {
         threads.push_back(std::thread(getRange,
                                       start_pix,

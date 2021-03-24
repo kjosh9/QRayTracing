@@ -4,7 +4,7 @@
 #include <QImage>
 #include <QQuickImageProvider>
 #include <QString>
-#include "camera.hpp"
+#include "core/camera.hpp"
 
 class renderer : public QQuickImageProvider
 {

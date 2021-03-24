@@ -1,6 +1,4 @@
 #include "camera.hpp"
-#include <iostream>
-#include <QDebug>
 
 Camera::Camera():
     _center{0,0,0},

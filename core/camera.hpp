@@ -1,8 +1,8 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include "point3d.hpp"
 #include <QPair>
+#include "point3d.hpp"
 
 class Camera {
 

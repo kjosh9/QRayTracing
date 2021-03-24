@@ -12,8 +12,8 @@
 #include <exception>
 #include <stdlib.h>
 #include "renderer.hpp"
-#include "sphere.hpp"
-#include "scene.hpp"
+#include "core/sphere.hpp"
+#include "core/scene.hpp"
 
 bool parse(QString filename,
            Camera & camera,

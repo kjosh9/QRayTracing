@@ -8,14 +8,14 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        renderer.cpp \
-        camera.cpp \
-        light.cpp \
-        plane.cpp \
-        point3d.cpp \
-        shadedObject.cpp \
-        scene.cpp \
-        sphere.cpp
+        gui/renderer.cpp \
+        core/camera.cpp \
+        core/light.cpp \
+        core/plane.cpp \
+        core/point3d.cpp \
+        core/shadedObject.cpp \
+        core/scene.cpp \
+        core/sphere.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,11 +31,11 @@ QML_DESIGNER_IMPORT_PATH =
 # !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    renderer.hpp \
-    camera.hpp \
-    light.hpp \
-    plane.hpp \
-    point3d.hpp \
-    scene.hpp \
-    sphere.hpp \
-    shadedObject.hpp
+    gui/renderer.hpp \
+    core/camera.hpp \
+    core/light.hpp \
+    core/plane.hpp \
+    core/point3d.hpp \
+    core/scene.hpp \
+    core/sphere.hpp \
+    core/shadedObject.hpp
