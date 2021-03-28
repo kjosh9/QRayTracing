@@ -1,6 +1,4 @@
 #include "light.hpp"
-#include <QDebug>
-#include <iostream>
 
 Light::Light():
     _intensity{0},

@@ -10,7 +10,7 @@
 
 namespace parser {
 
-bool parse(QString filename,
+bool parse(std::string filename,
            Camera & camera,
            std::vector<Light*> & lights,
            std::vector<ShadedObject*> & objects);

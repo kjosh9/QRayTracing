@@ -1,9 +1,7 @@
 #include "scene.hpp"
-#include <limits>
-
 #include "parse.hpp"
 
-Scene::Scene(QString filename):
+Scene::Scene(std::string filename):
     camera_(Camera()),
     lights_({}),
     objects_({})
@@ -25,7 +23,7 @@ Camera Scene::GetCamera()
     return camera_;
 }
 
-QColor Scene::GetImagePlane()
+Color Scene::GetImagePlane()
 {
     return imagePlane_;
 }

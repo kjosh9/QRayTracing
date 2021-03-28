@@ -29,7 +29,7 @@ QImage image_provider::requestImage(const QString &id,
     scene_file.replace("file://", "");
 
     Renderer new_renderer = Renderer();
-    Scene new_scene = Scene(scene_file);
+    Scene new_scene = Scene(scene_file.toStdString());
     std::vector<point3D> pixMatrix = new_renderer.RenderOnCpu(new_scene);
 
     //loop through the pixMatrix to create the image

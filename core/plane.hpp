@@ -8,7 +8,7 @@ class Plane: public ShadedObject{
 public:
     Plane();
 
-    Plane(double lambert, point3D location, QColor color, point3D normal);
+    Plane(double lambert, point3D location, Color color, point3D normal);
 
     point3D normal();
 

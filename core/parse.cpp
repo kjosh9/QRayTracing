@@ -2,18 +2,19 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QFile>
+#include <QString>
 #include "parse.hpp"
 #include "plane.hpp"
 #include "sphere.hpp"
 
 namespace parser {
 
-bool parse(QString filename,
+bool parse(std::string filename,
            Camera & camera,
            std::vector<Light*> & lights,
            std::vector<ShadedObject*> & objects)
 {
-    QFile file(filename);
+    QFile file(QString(filename.c_str()));
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return false;
     QString contents = file.readAll();
@@ -60,12 +61,12 @@ bool parse(QString filename,
             }
 
             QJsonArray resArray = newObj["resolution"].toArray();
-            QPair<double, double> resol;
+            std::pair<double, double> resol;
             resol.first = resArray.at(0).toDouble();
             resol.second = resArray.at(1).toDouble();
 
             QJsonArray sizeArray = newObj["size"].toArray();
-            QPair<int, int> camSize;
+            std::pair<int, int> camSize;
             camSize.first = sizeArray.at(0).toInt();
             camSize.second = sizeArray.at(1).toInt();
 
@@ -107,15 +108,14 @@ bool parse(QString filename,
 
                 QJsonObject colorJS = newObjectJS["color"].toObject();
 
-                QColor color;
+                Color color;
                 if (colorJS["r"].toInt() < 256 &&
                     colorJS["g"].toInt() < 256 &&
                     colorJS["b"].toInt() < 256) {
 
-                    color.setRgb(colorJS["r"].toInt(),
-                                 colorJS["g"].toInt(),
-                                 colorJS["b"].toInt(),
-                                 255);
+                    color.red = colorJS["r"].toInt();
+                    color.green = colorJS["g"].toInt();
+                    color.blue = colorJS["b"].toInt();
                 }
                 else{
                     qDebug() << "Incorrect color";

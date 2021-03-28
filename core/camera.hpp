@@ -1,7 +1,7 @@
 #ifndef CAMERA_HPP
 #define CAMERA_HPP
 
-#include <QPair>
+#include <utility>
 #include "point3d.hpp"
 
 class Camera {
@@ -9,7 +9,7 @@ class Camera {
 public:
     Camera();
 
-    Camera(point3D center, point3D normal, int focus, QPair<int, int> size, QPair<double, double> resolution);
+    Camera(point3D center, point3D normal, int focus, std::pair<int, int> size, std::pair<double, double> resolution);
 
     void setSize(int width, int height);
 
@@ -23,7 +23,7 @@ public:
 
     void setFocus(int focus);
 
-    QPair<int, int> size();
+    std::pair<int, int> size();
 
     point3D center();
 
@@ -31,14 +31,14 @@ public:
 
     int focus();
 
-    QPair<double, double> resolution();
+    std::pair<double, double> resolution();
 
 private:
     point3D _center;
     point3D _normal;
     int _focus;
-    QPair<int, int> _size;
-    QPair<double, double> _resolution;
+    std::pair<int, int> _size;
+    std::pair<double, double> _resolution;
 };
 
 #endif

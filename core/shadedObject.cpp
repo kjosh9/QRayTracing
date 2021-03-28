@@ -3,11 +3,11 @@
 ShadedObject::ShadedObject():
     _lambert{0},
     _center{0,0,0},
-    _color{QColor()}
+    _color{Color()}
 {
 }
 
-ShadedObject::ShadedObject(double lambert, point3D location, QColor color):
+ShadedObject::ShadedObject(double lambert, point3D location, Color color):
     _lambert{lambert},
     _center{location},
     _color{color}
@@ -22,6 +22,6 @@ point3D ShadedObject::center(){
     return _center;
 }
 
-QColor ShadedObject::color(){
+Color ShadedObject::color(){
     return _color;
 }

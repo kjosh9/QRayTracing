@@ -7,7 +7,7 @@ Sphere::Sphere() :
 {
 }
 
-Sphere::Sphere(double lambert, point3D location, QColor color, double radius) :
+Sphere::Sphere(double lambert, point3D location, Color color, double radius) :
     ShadedObject(lambert, location, color),
     _radius{radius}
 {

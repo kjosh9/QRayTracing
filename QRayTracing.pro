@@ -7,6 +7,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        core/color.cpp \
         core/renderer.cpp \
         gui/image_provider.cpp \
         main.cpp \
@@ -34,6 +35,7 @@ QML_DESIGNER_IMPORT_PATH =
 
 HEADERS += \
     core/camera.hpp \
+    core/color.hpp \
     core/light.hpp \
     core/plane.hpp \
     core/point3d.hpp \

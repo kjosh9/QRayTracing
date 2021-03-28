@@ -1,7 +1,5 @@
 #include <mutex>
 #include <thread>
-#include <QDebug>
-#include <QPainter>
 #include "renderer.hpp"
 
 Renderer::Renderer():
@@ -71,9 +69,9 @@ point3D Renderer::GetPixel(Scene & scene,
                     if (scale < 0){
                         scale *= -1;
                     }
-                    point3D colors(objects[interest]->color().red(),
-                                   objects[interest]->color().green(),
-                                   objects[interest]->color().blue());
+                    point3D colors(objects[interest]->color().red,
+                                   objects[interest]->color().green,
+                                   objects[interest]->color().blue);
 
                     pixColor = pixColor + colors * light->intensity() * scale;
                 }//end color loop

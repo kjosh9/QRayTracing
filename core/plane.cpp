@@ -4,7 +4,7 @@ Plane::Plane() :
     ShadedObject(){
 }
 
-Plane::Plane(double lambert, point3D location, QColor color, point3D normal) :
+Plane::Plane(double lambert, point3D location, Color color, point3D normal) :
     ShadedObject(lambert, location, color),
     _normal{normal}
 {

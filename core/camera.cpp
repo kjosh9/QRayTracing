@@ -9,7 +9,7 @@ Camera::Camera():
 {
 }
 
-Camera::Camera(point3D center, point3D normal, int focus, QPair<int, int> size, QPair<double, double> resolution):
+Camera::Camera(point3D center, point3D normal, int focus, std::pair<int, int> size, std::pair<double, double> resolution):
     _center{center},
     _normal{normal},
     _focus{focus},
@@ -44,7 +44,7 @@ void Camera::setFocus(int focus){
     _focus = focus;
 }
 
-QPair<int, int> Camera::size(){
+std::pair<int, int> Camera::size(){
     return _size;
 }
 
@@ -60,6 +60,6 @@ int Camera::focus(){
     return _focus;
 }
 
-QPair<double, double> Camera::resolution(){
+std::pair<double, double> Camera::resolution(){
     return _resolution;
 }
