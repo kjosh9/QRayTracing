@@ -1,5 +1,4 @@
 #include "scene.hpp"
-#include <QList>
 #include <limits>
 
 #include "parse.hpp"
@@ -36,12 +35,12 @@ point3D Scene::GetFocalPoint()
     return focalPoint_;
 }
 
-QVector<Light *> Scene::GetLights()
+std::vector<Light *> Scene::GetLights()
 {
     return lights_;
 }
 
-QVector<ShadedObject*> Scene::GetObjects()
+std::vector<ShadedObject*> Scene::GetObjects()
 {
     return objects_;
 }

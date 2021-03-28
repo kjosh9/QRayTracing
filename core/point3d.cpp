@@ -55,6 +55,21 @@ double point3D::z() {
     return _zPos;
 }
 
+void point3D::set_x(double x)
+{
+    _xPos = x;
+}
+
+void point3D::set_y(double y)
+{
+    _yPos = y;
+}
+
+void point3D::set_z(double z)
+{
+    _zPos = z;
+}
+
 point3D point3D::operator-(const point3D &rhs) {
     return point3D(_xPos - rhs._xPos, _yPos - rhs._yPos, _zPos - rhs._zPos);
 }

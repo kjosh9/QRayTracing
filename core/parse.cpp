@@ -10,8 +10,8 @@ namespace parser {
 
 bool parse(QString filename,
            Camera & camera,
-           QVector<Light*> & lights,
-           QVector<ShadedObject*> & objects)
+           std::vector<Light*> & lights,
+           std::vector<ShadedObject*> & objects)
 {
     QFile file(filename);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -89,7 +89,7 @@ bool parse(QString filename,
 
                 //make sure to place this in a vector or list
                 Light* newLight = new Light(intensity, location);
-                lights.append(newLight);
+                lights.emplace_back(newLight);
             }
         }
         else{
@@ -125,7 +125,7 @@ bool parse(QString filename,
                 if(newObjectJS["type"] == "sphere"){
                     double radius = newObjectJS["radius"].toDouble();
                     Sphere* newSphere = new Sphere(lambert, location, color, radius);
-                    objects.append(newSphere);
+                    objects.emplace_back(newSphere);
                 }
                 else if(newObjectJS["type"] == "plane"){
                     QJsonObject norm = newObjectJS["center"].toObject();
@@ -133,7 +133,7 @@ bool parse(QString filename,
                             norm["y"].toDouble(),
                             norm["z"].toDouble());
                     Plane* newPlane = new Plane(lambert, location, color, normal);
-                    objects.append(newPlane);
+                    objects.emplace_back(newPlane);
                 }
             }
         }

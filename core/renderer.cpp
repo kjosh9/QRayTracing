@@ -1,6 +1,7 @@
 #include <mutex>
 #include <thread>
 #include <QDebug>
+#include <QPainter>
 #include "renderer.hpp"
 
 Renderer::Renderer():
@@ -56,11 +57,12 @@ point3D Renderer::GetPixel(Scene & scene,
                 point3D trash2;
 
                 auto objects = scene.GetObjects();
-                for(int l = 0; l < objects.size() && shaded == false; l++){
+                for(int l = 0; l < objects.size(); l++){
                     //test for intersection with other objects
                     if(objects[l]->intersects(intersection2, shadowRay, trash1, trash2)){
                         if(trash1.z() > 0){
                             shaded = true;
+                            break;
                         }
                     }
                 }
@@ -97,13 +99,8 @@ void Renderer::GetRange(int start_pix,
     }
 }
 
-QImage Renderer::RenderOnCpu(Scene & scene)
+std::vector<point3D> Renderer::RenderOnCpu(Scene & scene)
 {
-    QImage image(scene.GetCamera().size().first,
-                 scene.GetCamera().size().second,
-                 QImage::Format_ARGB32_Premultiplied);
-    QPainter painter(&image);
-    painter.fillRect(image.rect(), Qt::black);
     std::vector<point3D> pixMatrix;
     pixMatrix.assign(scene.GetCamera().size().first * scene.GetCamera().size().second,
                      point3D(0,0,0));
@@ -111,9 +108,6 @@ QImage Renderer::RenderOnCpu(Scene & scene)
     double maxGreen = 0;
     double maxBlue = 0;
 
-    std::chrono::time_point<std::chrono::system_clock>start, end;
-    std::chrono::duration<double> elapsed_seconds;
-    start = std::chrono::system_clock::now();
     std::vector<std::thread> threads;
     int start_pix = 0;
     int finish_pix = pixMatrix.size()/available_cpu_threads_;
@@ -144,31 +138,13 @@ QImage Renderer::RenderOnCpu(Scene & scene)
         }
     }
 
-    end = std::chrono::system_clock::now();
-    elapsed_seconds = end-start;
-    qDebug() << "Determine pixel color: Elapsed time: "
-             << elapsed_seconds.count() << "s";
-
-    start = std::chrono::system_clock::now();
-
-    //loop through the pixMatrix to create the image
-    int i{0};
-    for(point3D & pixel: pixMatrix){
-        QColor newColor;
-        if(maxRed > 255 || maxBlue > 255 || maxGreen > 255){
-            newColor.setRgb(pixel.x()*(255/maxRed), pixel.y()*(255/maxGreen), pixel.z()*(255/maxBlue));
+    if (maxRed > 255 || maxBlue > 255 || maxGreen > 255) {
+        for(point3D & pixel: pixMatrix) {
+            pixel.set_x(pixel.x()*(255/maxRed));
+            pixel.set_y(pixel.y()*(255/maxGreen));
+            pixel.set_z(pixel.z()*(255/maxBlue));
         }
-        else{
-            newColor.setRgb(pixel.x(), pixel.y(), pixel.z());
-        }
-        image.setPixel((i / scene.GetCamera().size().first),
-                       (i % scene.GetCamera().size().first),
-                       newColor.rgb());
-        i++;
     }
 
-    end = std::chrono::system_clock::now();
-    elapsed_seconds = end-start;
-    qDebug() << "returning image";
-    return image;
+    return pixMatrix;
 }

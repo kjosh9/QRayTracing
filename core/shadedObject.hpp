@@ -3,9 +3,6 @@
 
 #include "point3d.hpp"
 #include <QColor>
-#include <QDebug>
-#include <iostream>
-#include <exception>
 
 //this is a base class for spheres and planes
 class ShadedObject{

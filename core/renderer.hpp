@@ -1,14 +1,14 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include <QImage>
+#include "point3d.hpp"
 #include "scene.hpp"
 
 class Renderer
 {
 public:
     Renderer();
-    QImage RenderOnCpu(Scene & scene);
+    std::vector<point3D> RenderOnCpu(Scene & scene);
 
 
 private:

@@ -2,7 +2,7 @@
 #define PARSE_HPP
 
 #include <QString>
-#include <QVector>
+#include <vector>
 
 #include "light.hpp"
 #include "shadedObject.hpp"
@@ -12,8 +12,8 @@ namespace parser {
 
 bool parse(QString filename,
            Camera & camera,
-           QVector<Light*> & lights,
-           QVector<ShadedObject*> & objects);
+           std::vector<Light*> & lights,
+           std::vector<ShadedObject*> & objects);
 
 }
 #endif // PARSE_HPP
