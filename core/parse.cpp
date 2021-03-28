@@ -1,19 +1,12 @@
-#include <iostream>
-#include <QFile>
-#include <QJsonDocument>
 #include <QJsonObject>
-#include <QString>
-#include <QDebug>
-#include <QVector>
-#include <QStringList>
+#include <QJsonDocument>
 #include <QJsonArray>
-#include <QPair>
-#include <QImage>
-#include <exception>
-#include <stdlib.h>
-#include "renderer.hpp"
-#include "core/sphere.hpp"
-#include "core/scene.hpp"
+#include <QFile>
+#include "parse.hpp"
+#include "plane.hpp"
+#include "sphere.hpp"
+
+namespace parser {
 
 bool parse(QString filename,
            Camera & camera,
@@ -148,33 +141,4 @@ bool parse(QString filename,
     return true;
 }
 
-renderer::renderer()
-    : QQuickImageProvider(QQuickImageProvider::Image),
-      _camera{new Camera()}
-{
-}
-
-renderer::~renderer()
-{
-    delete _camera;
-}
-
-QImage renderer::requestImage(const QString &id,
-                                QSize *size,
-                                const QSize &requestedSize)
-{
-    qDebug() << "ID: " << id;
-    qDebug() << "Size: " << requestedSize;
-    QString scene_file = id;
-    scene_file.replace("file://", "");
-    QVector<Light*> lights;
-    QVector<ShadedObject*> objects;
-    parse(scene_file, *_camera, lights, objects);
-    Scene scene(_camera, lights, objects, 1);
-    _sceneImage = scene.renderScene();
-    int height = _sceneImage.height();
-    int width = _sceneImage.width();
-    *size = QSize(width, height);
-
-    return _sceneImage;
-}
+} //parser

@@ -2,7 +2,6 @@
 #define SCENE_HPP
 
 #include <QVector>
-#include <QImage>
 #include <QPainter>
 #include <QGenericMatrix>
 
@@ -14,27 +13,21 @@
 class Scene{
 
 public:
-    Scene();
-
-    Scene(Camera * camera, 
-          QVector<Light*> lights, 
-          QVector<ShadedObject*> objects, 
-          int threads);
-
+    Scene(QString filename);
     ~Scene();
 
-    point3D getPixel(const int &i, const int &j);
-
-    QImage renderScene();
-
+    Camera GetCamera();
+    QColor GetImagePlane();
+    point3D GetFocalPoint();
+    QVector<Light *> GetLights();
+    QVector<ShadedObject*> GetObjects();
 
 private:
-    Camera * _camera;
-    QVector<Light*> _lights;
-    QVector<ShadedObject*> _objects;
-    QColor * imagePlane;
-    point3D focalPoint;
-    int _threads;
+    Camera camera_;
+    QVector<Light*> lights_;
+    QVector<ShadedObject*> objects_;
+    QColor imagePlane_;
+    point3D focalPoint_;
 };
 
 #endif

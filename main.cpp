@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQuick>
 #include <QObject>
-#include "gui/renderer.hpp"
+#include "gui/image_provider.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     app.setApplicationName("kjosh9");
     QQuickView * view = new QQuickView;
     QQmlEngine * engine = view->engine();
-    engine->addImageProvider(QLatin1String("rendered_image"), new renderer);
+    engine->addImageProvider(QLatin1String("rendered_image"), new image_provider);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     view->setSource(url);
     view->show();
