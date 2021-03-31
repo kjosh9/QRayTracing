@@ -41,10 +41,11 @@ Item {
                 //Implement me
             }
             MenuSeparator { }
+            */
             Action {
                 text: "&Quit"
                 onTriggered: Qt.quit()
-            }*/
+            }
         }
         Menu {
             title: "&Help"
