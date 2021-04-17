@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQuick>
 #include <QObject>
-#include "gui/image_provider.hpp"
+#include "image_provider.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
     QQuickView * view = new QQuickView;
     QQmlEngine * engine = view->engine();
     QObject::connect(engine, &QQmlApplicationEngine::quit, &QGuiApplication::quit);
-    engine->addImageProvider(QLatin1String("rendered_image"), new image_provider);
+    image_provider * my_image_provider = new image_provider;
+    engine->addImageProvider(QLatin1String("rendered_image"), my_image_provider);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     view->setSource(url);
     view->show();

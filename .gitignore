@@ -1,1 +1,4 @@
 QRayTracing.pro.user
+Makefile
+CMakeLists.txt.user
+.vscode

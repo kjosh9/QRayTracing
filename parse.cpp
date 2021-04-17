@@ -3,6 +3,7 @@
 #include <QJsonArray>
 #include <QFile>
 #include <QString>
+#include <string>
 #include "parse.hpp"
 #include "plane.hpp"
 #include "sphere.hpp"

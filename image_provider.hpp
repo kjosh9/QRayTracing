@@ -4,7 +4,6 @@
 #include <QImage>
 #include <QQuickImageProvider>
 #include <QString>
-#include "core/camera.hpp"
 
 class image_provider : public QQuickImageProvider
 {

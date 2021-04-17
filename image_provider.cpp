@@ -6,10 +6,10 @@
 #include <exception>
 #include <stdlib.h>
 #include "image_provider.hpp"
-#include "core/sphere.hpp"
-#include "core/scene.hpp"
-#include "core/renderer.hpp"
-#include "core/point3d.hpp"
+#include "sphere.hpp"
+#include "scene.hpp"
+#include "renderer.hpp"
+#include "point3d.hpp"
 #include <vector>
 
 image_provider::image_provider()
