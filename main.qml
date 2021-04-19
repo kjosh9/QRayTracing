@@ -36,12 +36,13 @@ Item {
                 text: "&Save..."
                 //Implement me
             }
+            */
+            /*
             Action {
                 text: "&Save As"
-                //Implement me
             }
-            MenuSeparator { }
             */
+            MenuSeparator { }
             Action {
                 text: "&Quit"
                 onTriggered: Qt.quit()

@@ -14,7 +14,9 @@ int main(int argc, char *argv[])
     app.setApplicationName("QRayTracing");
     QQuickView * view = new QQuickView;
     QQmlEngine * engine = view->engine();
+
     QObject::connect(engine, &QQmlApplicationEngine::quit, &QGuiApplication::quit);
+    
     image_provider * my_image_provider = new image_provider;
     engine->addImageProvider(QLatin1String("rendered_image"), my_image_provider);
     const QUrl url(QStringLiteral("qrc:/main.qml"));
