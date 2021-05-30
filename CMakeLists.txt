@@ -30,25 +30,19 @@ set(CMAKE_USE_WIN32_THREADS_INIT 0)
 set(CMAKE_USE_PTHREADS_INIT 1)
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
+add_subdirectory(core)
+
 add_executable(QRayTracing
     main.cpp
-    camera.cpp
-    color.cpp
-    image_provider.cpp
-    light.cpp
     parse.cpp
-    plane.cpp
-    point3d.cpp
-    renderer.cpp
-    scene.cpp
-    shadedObject.cpp
-    sphere.cpp
+    image_provider.cpp
     ${RESOURCES}
 )
 
 qt5_use_modules(QRayTracing Quick Core Gui Qml)
 
 target_link_libraries(QRayTracing
+    core
     Qt5::Core
     Qt5::Qml
     Qt5::Gui

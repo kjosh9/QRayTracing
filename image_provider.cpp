@@ -6,10 +6,13 @@
 #include <exception>
 #include <stdlib.h>
 #include "image_provider.hpp"
-#include "sphere.hpp"
-#include "scene.hpp"
-#include "renderer.hpp"
-#include "point3d.hpp"
+#include "core/sphere.hpp"
+#include "core/scene.hpp"
+#include "core/camera.hpp"
+#include "core/light.hpp"
+#include "core/renderer.hpp"
+#include "core/point3d.hpp"
+#include "parse.hpp"
 #include <vector>
 
 image_provider::image_provider()
@@ -29,7 +32,16 @@ QImage image_provider::requestImage(const QString &id,
     scene_file.replace("file://", "");
 
     Renderer new_renderer = Renderer();
-    Scene new_scene = Scene(scene_file.toStdString());
+    std::vector<Light*> lights = {};
+    std::vector<ShadedObject*> objects = {};
+    Camera camera = Camera();
+
+    parser::parse(scene_file.toStdString(),
+                  camera,
+                  lights,
+                  objects);
+
+    Scene new_scene = Scene(camera, lights, objects);
     std::vector<point3D> pixMatrix = new_renderer.RenderOnCpu(new_scene);
 
     //loop through the pixMatrix to create the image

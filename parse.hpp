@@ -4,9 +4,9 @@
 #include <QString>
 #include <vector>
 
-#include "light.hpp"
-#include "shadedObject.hpp"
-#include "camera.hpp"
+#include "core/light.hpp"
+#include "core/shadedObject.hpp"
+#include "core/camera.hpp"
 
 namespace parser {
 

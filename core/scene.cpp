@@ -1,16 +1,12 @@
 #include "scene.hpp"
-#include "parse.hpp"
 
-Scene::Scene(std::string filename):
-    camera_(Camera()),
-    lights_({}),
-    objects_({})
+Scene::Scene(Camera camera,
+             std::vector<Light*> lights,
+             std::vector<ShadedObject*> objects):
+    camera_(camera),
+    lights_(lights),
+    objects_(objects)
 {
-    parser::parse(filename,
-                  camera_,
-                  lights_,
-                  objects_);
-
     focalPoint_ = camera_.normal() * (-1 * camera_.focus());
 }
 

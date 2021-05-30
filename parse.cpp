@@ -5,8 +5,8 @@
 #include <QString>
 #include <string>
 #include "parse.hpp"
-#include "plane.hpp"
-#include "sphere.hpp"
+#include "core/plane.hpp"
+#include "core/sphere.hpp"
 
 namespace parser {
 

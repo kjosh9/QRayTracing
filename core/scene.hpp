@@ -11,7 +11,7 @@
 class Scene{
 
 public:
-    Scene(std::string filename);
+    Scene(Camera camera, std::vector<Light*> lights, std::vector<ShadedObject*> objects);
     ~Scene();
 
     Camera GetCamera();
