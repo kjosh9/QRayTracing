@@ -9,17 +9,27 @@ Item {
     width: 1200
     visible: true
     property string scene_filename
-    signal render(msg: string);
+    signal saveFile(msg: string)
 
     FileDialog {
-        id: file_dialog
+        id: open_dialog
         title: "Choose a scene file"
         nameFilters: [ "Json files (*.json)", "All files (*)" ]
         onAccepted: {
             console.log("Accepted: " + fileUrls)
             root.scene_filename = fileUrl
         }
-        onRejected: { console.log("Rejected") }
+    }
+
+    FileDialog {
+        id: save_dialog
+        title: "Save image"
+        nameFilters: ["*.jpeg", "All files(*)"]
+        selectExisting: false
+        onAccepted: {
+            console.log("Selected to save: " + fileUrls)
+            root.saveFile(fileUrl)
+        }
     }
 
     MenuBar {
@@ -28,20 +38,18 @@ Item {
         Menu {
             title: "&File"
             Action {
-                text: "&Open..."
-                onTriggered: file_dialog.open()
+                text: "&Open"
+                onTriggered: open_dialog.open()
             }
             /*
             Action {
-                text: "&Save..."
-                //Implement me
+                text: "&Save"
             }
             */
-            /*
             Action {
                 text: "&Save As"
+                onTriggered: save_dialog.open()
             }
-            */
             MenuSeparator { }
             Action {
                 text: "&Quit"
