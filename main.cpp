@@ -27,6 +27,9 @@ int main(int argc, char *argv[])
     QObject::connect(root_item, SIGNAL(saveFile(QString)),
                      &my_image_provider, SLOT(saveImage(QString)));
 
+    QObject::connect(root_item, SIGNAL(saveFileNoName()),
+                     &my_image_provider, SLOT(saveImage()));
+
     view->show();
     return app.exec();
 }

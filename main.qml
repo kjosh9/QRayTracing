@@ -9,6 +9,7 @@ Item {
     width: 1200
     visible: true
     property string scene_filename
+    signal saveFileNoName()
     signal saveFile(msg: string)
 
     FileDialog {
@@ -41,11 +42,10 @@ Item {
                 text: "&Open"
                 onTriggered: open_dialog.open()
             }
-            /*
             Action {
                 text: "&Save"
+                onTriggered: root.saveFileNoName()
             }
-            */
             Action {
                 text: "&Save As"
                 onTriggered: save_dialog.open()

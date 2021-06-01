@@ -65,6 +65,10 @@ QImage image_provider::requestImage(const QString &id,
     return scene_image_;
 }
 
+void image_provider::saveImage() {
+    saveImage(scene_filename_.replace(".json", ".jpeg"));
+}
+
 void image_provider::saveImage(QString filename) {
     filename.replace("file://", "");
     if (scene_image_.save(filename)) {

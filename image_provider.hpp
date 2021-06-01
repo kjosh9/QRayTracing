@@ -23,6 +23,7 @@ public:
                         const QSize &requestedSize) override;
 
 public slots:
+    void saveImage();
     void saveImage(QString filename);
 
 private:
