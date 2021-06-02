@@ -2,31 +2,32 @@
 #define IMAGE_PROVIDER_HPP
 
 #include <QImage>
+#include <QThreadPool>
 #include <QQuickImageProvider>
 #include <QString>
 #include <QObject>
 
-class image_provider :
+class ImageProvider :
         public QObject,
-        public QQuickImageProvider
+        public QQuickAsyncImageProvider
 {
     Q_OBJECT
 
 public:
+    ImageProvider(QObject* parent=0);
 
-    image_provider(QObject* parent=0);
+    ~ImageProvider();
 
-    ~image_provider();
-
-    QImage requestImage(const QString & id,
-                        QSize * size,
-                        const QSize &requestedSize) override;
+    QQuickImageResponse * requestImageResponse(const QString & id,
+                                               const QSize &requestedSize) override;
 
 public slots:
+    void cacheImage(QImage image);
     void saveImage();
     void saveImage(QString filename);
 
 private:
+    QThreadPool pool_;
     QString scene_filename_;
     QImage scene_image_;
 };

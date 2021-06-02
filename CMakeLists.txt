@@ -35,7 +35,9 @@ add_subdirectory(core)
 add_executable(QRayTracing
     main.cpp
     parse.cpp
-    image_provider.cpp
+    imageprovider.cpp
+    renderedimageresponse.cpp
+    imagerenderrunnable.cpp
     ${RESOURCES}
 )
 

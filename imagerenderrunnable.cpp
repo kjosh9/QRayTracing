@@ -1,13 +1,7 @@
-#include <QString>
-#include <QDebug>
-#include <QVector>
 #include <QPainter>
-#include <QImage>
-#include <exception>
-#include <stdlib.h>
-#include <vector>
+#include <QColor>
 
-#include "image_provider.hpp"
+#include "imagerenderrunnable.hpp"
 #include "core/sphere.hpp"
 #include "core/scene.hpp"
 #include "core/camera.hpp"
@@ -16,22 +10,14 @@
 #include "core/point3d.hpp"
 #include "parse.hpp"
 
-
-image_provider::image_provider(QObject* parent)
-    : QObject(parent)
-    , QQuickImageProvider(QQuickImageProvider::Image)
+ImageRenderRunnable::ImageRenderRunnable(const QString &id, QObject *parent) : QObject(parent)
+  , id_{id}
 {
 }
 
-image_provider::~image_provider()
+void ImageRenderRunnable::run()
 {
-}
-
-QImage image_provider::requestImage(const QString &id,
-                                    QSize * /*size*/,
-                                    const QSize & /*requestedSize*/)
-{
-    scene_filename_ = id;
+    QString scene_filename_ = id_;
     scene_filename_.replace("file://", "");
 
     Renderer new_renderer = Renderer();
@@ -48,7 +34,7 @@ QImage image_provider::requestImage(const QString &id,
     std::vector<point3D> pixMatrix = new_renderer.RenderOnCpu(new_scene);
 
     //loop through the pixMatrix to create the image
-    scene_image_ = QImage(new_scene.GetCamera().size().first,
+    QImage scene_image_ = QImage(new_scene.GetCamera().size().first,
                           new_scene.GetCamera().size().second,
                           QImage::Format_ARGB32_Premultiplied);
     QPainter painter(&scene_image_);
@@ -62,18 +48,5 @@ QImage image_provider::requestImage(const QString &id,
                        newColor.rgb());
         i++;
     }
-    return scene_image_;
-}
-
-void image_provider::saveImage() {
-    saveImage(scene_filename_.replace(".json", ".jpeg"));
-}
-
-void image_provider::saveImage(QString filename) {
-    filename.replace("file://", "");
-    if (scene_image_.save(filename)) {
-        qDebug() << "Image saved to: " + filename;
-    } else {
-        qDebug() << "Image save unsuccessful";
-    }
+    emit done(scene_image_);
 }
