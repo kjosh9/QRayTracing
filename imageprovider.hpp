@@ -22,7 +22,7 @@ public:
                                                const QSize &requestedSize) override;
 
 public slots:
-    void cacheImage(QImage image);
+    void setImage(QImage image);
     void saveImage();
     void saveImage(QString filename);
 

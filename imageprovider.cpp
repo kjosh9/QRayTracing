@@ -21,11 +21,11 @@ QQuickImageResponse * ImageProvider::requestImageResponse(const QString &id,
 {
     scene_filename_ = id;
     auto * response = new RenderedImageResponse(id, requestedSize, &pool_);
-    QObject::connect(response, &RenderedImageResponse::done, this, &ImageProvider::cacheImage);
+    QObject::connect(response, &RenderedImageResponse::done, this, &ImageProvider::setImage);
     return response;
 }
 
-void ImageProvider::cacheImage(QImage image)
+void ImageProvider::setImage(QImage image)
 {
     scene_image_ = image;
 }

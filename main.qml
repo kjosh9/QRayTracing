@@ -63,34 +63,41 @@ Item {
         }
     }
 
+    Row {
+        id: renderBar
+        anchors.top: menu_bar.bottom
+        anchors.topMargin: 10
+        anchors.left: root.left
+        anchors.leftMargin: 10
+        spacing: 10
+        RoundButton {
+            id: render_button
+            text: "Render"
+            radius: 5
+            onClicked: {
+                rendered_image.source = "image://rendered_image/" + root.scene_filename
+            }
+            enabled: root.scene_filename.length > 0
+        }
+        Text {
+            id: filename_display
+            text: (root.scene_filename.length > 0) ? root.scene_filename : "no file selected"
+            anchors.bottom: render_button.bottom
+        }
+    }
     Item {
         id: image_area
-        anchors.top: menu_bar.bottom
-        anchors.bottom: filename_display.top
+        anchors.top: renderBar.bottom
+        anchors.bottom: root.bottom
         anchors.right: root.right
         anchors.left: root.left
+        anchors.horizontalCenter: root.horizontalCenter
+        anchors.verticalCenter: root.verticalCenter
         Image {
             id: rendered_image
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             source: "image://rendered_image/scene_0.json"
-        }
-    }
-
-    Text {
-        id: filename_display
-        anchors.bottom: render_button.top
-        text: (root.scene_filename.length > 0) ? root.scene_filename : "no file selected"
-    }
-
-    RoundButton {
-        id: render_button
-        anchors.horizontalCenter: root.horizontalCenter
-        anchors.bottom: root.bottom
-        text: "Render"
-        radius: 15
-        onClicked: {
-            rendered_image.source = "image://rendered_image/" + root.scene_filename
         }
     }
 }
