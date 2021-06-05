@@ -93,6 +93,13 @@ Item {
         anchors.left: root.left
         anchors.horizontalCenter: root.horizontalCenter
         anchors.verticalCenter: root.verticalCenter
+
+        Rectangle {
+            anchors.fill: parent
+            border.color: "black"
+            border.width: 1
+        }
+
         Image {
             id: rendered_image
             anchors.horizontalCenter: parent.horizontalCenter
