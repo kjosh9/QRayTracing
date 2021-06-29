@@ -20,7 +20,7 @@ QQuickImageResponse * ImageProvider::requestImageResponse(const QString &id,
                                                           const QSize & requestedSize)
 {
     scene_filename_ = id;
-    auto * response = new RenderedImageResponse(id, requestedSize, &pool_);
+    auto * response = new RenderedImageResponse(id, thread_count_, requestedSize, &pool_);
     QObject::connect(response, &RenderedImageResponse::done, this, &ImageProvider::setImage);
     return response;
 }
@@ -43,4 +43,9 @@ void ImageProvider::saveImage(QString filename)
     } else {
         qDebug() << "Image save unsuccessful";
     }
+}
+
+void ImageProvider::setThreadCount(const int thread_count)
+{
+    thread_count_ = thread_count;
 }

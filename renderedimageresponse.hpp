@@ -8,8 +8,9 @@
 class RenderedImageResponse : public QQuickImageResponse
 {
     Q_OBJECT
+
 public:
-    RenderedImageResponse(const QString &id, const QSize &requestedSize, QThreadPool *pool);
+    RenderedImageResponse(const QString &id, const int thread_count, const QSize &requestedSize, QThreadPool *pool);
 
     QQuickTextureFactory * textureFactory() const override;
 

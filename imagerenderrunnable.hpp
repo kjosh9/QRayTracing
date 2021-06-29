@@ -10,6 +10,7 @@ class ImageRenderRunnable : public QObject, public QRunnable
     Q_OBJECT
 public:
     explicit ImageRenderRunnable(const QString &id,
+                                 const int thread_count,
                                  QObject *parent = nullptr);
 
     void run() override;
@@ -19,6 +20,7 @@ signals:
 
 private:
     QString id_;
+    int thread_count_{4};
 
 };
 

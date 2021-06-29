@@ -10,8 +10,12 @@
 #include "core/point3d.hpp"
 #include "parse.hpp"
 
-ImageRenderRunnable::ImageRenderRunnable(const QString &id, QObject *parent) : QObject(parent)
+ImageRenderRunnable::ImageRenderRunnable(const QString &id,
+                                         const int thread_count,
+                                         QObject *parent)
+  : QObject(parent)
   , id_{id}
+  , thread_count_{thread_count}
 {
 }
 
@@ -31,7 +35,7 @@ void ImageRenderRunnable::run()
                   objects);
 
     Scene new_scene = Scene(camera, lights, objects);
-    std::vector<point3D> pixMatrix = new_renderer.RenderOnCpu(new_scene);
+    std::vector<point3D> pixMatrix = new_renderer.RenderOnCpu(new_scene, thread_count_);
 
     //loop through the pixMatrix to create the image
     QImage scene_image_ = QImage(new_scene.GetCamera().size().first,

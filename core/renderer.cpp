@@ -97,7 +97,7 @@ void Renderer::GetRange(int start_pix,
     }
 }
 
-std::vector<point3D> Renderer::RenderOnCpu(Scene & scene)
+std::vector<point3D> Renderer::RenderOnCpu(Scene & scene, const int thread_count)
 {
     std::vector<point3D> pixMatrix;
     pixMatrix.assign(scene.GetCamera().size().first * scene.GetCamera().size().second,
@@ -108,9 +108,9 @@ std::vector<point3D> Renderer::RenderOnCpu(Scene & scene)
 
     std::vector<std::thread> threads;
     int start_pix = 0;
-    int finish_pix = pixMatrix.size()/available_cpu_threads_;
+    int finish_pix = pixMatrix.size()/thread_count;
     int range = finish_pix;
-    for (int i = 0; i < available_cpu_threads_; i++) {
+    for (int i = 0; i < thread_count; i++) {
         threads.push_back(std::thread(&Renderer::GetRange,
                                       start_pix,
                                       finish_pix,

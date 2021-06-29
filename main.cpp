@@ -30,6 +30,9 @@ int main(int argc, char *argv[])
     QObject::connect(root_item, SIGNAL(saveFileNoName()),
                      &my_image_provider, SLOT(saveImage()));
 
+    QObject::connect(root_item, SIGNAL(setThreadCount(int)),
+                     &my_image_provider, SLOT(setThreadCount(int)));
+
     view->show();
     return app.exec();
 }

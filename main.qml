@@ -11,6 +11,7 @@ Item {
     property string scene_filename
     signal saveFileNoName()
     signal saveFile(msg: string)
+    signal setThreadCount(real threads)
 
     FileDialog {
         id: open_dialog
@@ -72,7 +73,7 @@ Item {
         spacing: 10
 
         ComboBox {
-            currentIndex: 8
+            currentIndex: 2
             model: ListModel {
                 id: threadsBox
                 ListElement {text: "1"}
@@ -84,10 +85,13 @@ Item {
                 ListElement {text: "12"}
                 ListElement {text: "14"}
                 ListElement {text: "16"}
-                ListElement {text: "18"}
-                ListElement {text: "20"}
+                ListElement {text: "24"}
+                ListElement {text: "32"}
             }
             width: 100
+            onCurrentIndexChanged: {
+                root.setThreadCount(parseInt(threadsBox.get(currentIndex).text));
+            }
         }
 
         RoundButton {

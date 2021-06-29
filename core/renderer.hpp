@@ -8,7 +8,7 @@ class Renderer
 {
 public:
     Renderer();
-    std::vector<point3D> RenderOnCpu(Scene & scene);
+    std::vector<point3D> RenderOnCpu(Scene & scene, const int thread_count);
 
 
 private:
