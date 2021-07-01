@@ -1,5 +1,7 @@
 #include <QPainter>
 #include <QColor>
+#include <QDebug>
+#include <chrono>
 
 #include "imagerenderrunnable.hpp"
 #include "core/sphere.hpp"
@@ -21,6 +23,8 @@ ImageRenderRunnable::ImageRenderRunnable(const QString &id,
 
 void ImageRenderRunnable::run()
 {
+    using namespace std::chrono;
+    auto start_time = high_resolution_clock::now();
     QString scene_filename_ = id_;
     scene_filename_.replace("file://", "");
 
@@ -52,5 +56,7 @@ void ImageRenderRunnable::run()
                        newColor.rgb());
         i++;
     }
+    auto render_duration = duration_cast<milliseconds>(high_resolution_clock::now() - start_time);
+    qDebug() << "Render time: " << render_duration.count()/1000.0 << "seconds";
     emit done(scene_image_);
 }
