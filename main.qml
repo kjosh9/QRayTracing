@@ -11,7 +11,8 @@ Item {
     property string scene_filename
     signal saveFileNoName()
     signal saveFile(msg: string)
-    signal setThreadCount(real threads)
+    signal setThreadCount(int threads)
+    property variant about_win;
 
     FileDialog {
         id: open_dialog
@@ -59,8 +60,14 @@ Item {
         }
         Menu {
             title: "&Help"
-            Action { text: qsTr("&About") }
-            //Implement me
+            Action {
+                text: qsTr("&About")
+                onTriggered: {
+                    var about_comp = Qt.createComponent("aboutWindow.qml");
+                    about_win = about_comp.createObject(root);
+                    about_win.show();
+                }
+            }
         }
     }
 
@@ -113,8 +120,6 @@ Item {
         id: image_area
         anchors.top: renderBar.bottom
         anchors.bottom: root.bottom
-        anchors.right: root.right
-        anchors.left: root.left
         anchors.horizontalCenter: root.horizontalCenter
         anchors.verticalCenter: root.verticalCenter
 

@@ -47,5 +47,6 @@ void ImageProvider::saveImage(QString filename)
 
 void ImageProvider::setThreadCount(const int thread_count)
 {
+    qDebug() << "thread count updated to " << thread_count;
     thread_count_ = thread_count;
 }
