@@ -17,3 +17,5 @@ Scenes to be ray-traced can be defined in json to be parsed by the applicaiton. 
 
 And exactly one:
 - Camera
+
+An example can be seen [here](/scenes/scene_1.json)
