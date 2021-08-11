@@ -2,11 +2,8 @@
 #include <thread>
 #include "renderer.hpp"
 
-Renderer::Renderer():
-    available_cpu_threads_(std::thread::hardware_concurrency())
+Renderer::Renderer()
 {
-    if (available_cpu_threads_ < 1)
-        available_cpu_threads_ = 1;
 }
 
 point3D Renderer::GetPixel(Scene & scene,
@@ -25,10 +22,9 @@ point3D Renderer::GetPixel(Scene & scene,
     bool objecthit = false;
 
     //this loop detects of the ray intersects an object
-    //and when multiple objects,
-    //finds the closest.
+    //and when multiple objects, finds the closest.
     int k = 0;
-    for(auto object : scene.GetObjects()){
+    for(auto & object : scene.GetObjects()){
         if(object->intersects(scene.GetFocalPoint(), rayDirection, intersection, normal)){
 
             double distance = sqrt((intersection - scene.GetFocalPoint()).dot(intersection - scene.GetFocalPoint()));
@@ -45,7 +41,7 @@ point3D Renderer::GetPixel(Scene & scene,
     point3D pixColor(0,0,0);
     if(objecthit) {
 
-        for(auto light : scene.GetLights()){
+        for(auto & light : scene.GetLights()){
 
             //determine if there is another object blocking the light
             bool shaded = false;
@@ -55,7 +51,7 @@ point3D Renderer::GetPixel(Scene & scene,
                 point3D trash2;
 
                 auto objects = scene.GetObjects();
-                for(int l = 0; l < objects.size(); l++){
+                for(size_t l = 0; l < objects.size(); l++){
                     //test for intersection with other objects
                     if(objects[l]->intersects(intersection2, shadowRay, trash1, trash2)){
                         if(trash1.z() > 0){

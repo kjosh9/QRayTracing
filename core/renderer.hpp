@@ -21,8 +21,6 @@ private:
     static point3D GetPixel(Scene & scene,
                             const int i,
                             const int j);
-
-    int available_cpu_threads_;
 };
 
 #endif // RENDERER_H
