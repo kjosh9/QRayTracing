@@ -3,6 +3,7 @@
 #include <QJsonArray>
 #include <QFile>
 #include <QString>
+#include <QDebug>
 #include <string>
 #include "parse.hpp"
 #include "core/plane.hpp"

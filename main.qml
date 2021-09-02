@@ -10,7 +10,7 @@ Item {
     visible: true
     property string scene_filename
     signal saveFileNoName()
-    signal saveFile(msg: string)
+    signal saveFile(string filename)
     signal setThreadCount(int threads)
     property variant about_win;
 
@@ -134,6 +134,25 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
             source: "image://rendered_image/scene_0.json"
+        }
+
+        Item {
+            id: rendering_prompt
+            anchors.centerIn: parent
+            visible: rendered_image.progress != 1
+            AnimatedImage {
+                id: rotating_gear
+                anchors.centerIn: parent
+                source: "rotating_gear.gif"
+            }
+
+            Text {
+                id: rendering_text
+                anchors.top: rotating_gear.bottom
+                anchors.topMargin: 50
+                anchors.horizontalCenter: parent.horizontalCenter
+                text: qsTr("Rendering...")
+            }
         }
     }
 }

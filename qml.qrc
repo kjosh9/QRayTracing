@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>aboutWindow.qml</file>
+        <file>rotating_gear.gif</file>
     </qresource>
 </RCC>
