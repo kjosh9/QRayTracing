@@ -33,20 +33,29 @@ void ImageRenderRunnable::run()
     std::vector<ShadedObject*> objects = {};
     Camera camera = Camera();
 
-    parser::parse(scene_filename_.toStdString(),
-                  camera,
-                  lights,
-                  objects);
+    auto valid_image = parser::parse(scene_filename_.toStdString(),
+                                     camera,
+                                     lights,
+                                     objects);
+
 
     Scene new_scene = Scene(camera, lights, objects);
-    std::vector<point3D> pixMatrix = new_renderer.RenderOnCpu(new_scene, thread_count_);
 
     //loop through the pixMatrix to create the image
     QImage scene_image_ = QImage(new_scene.GetCamera().size().first,
                           new_scene.GetCamera().size().second,
                           QImage::Format_ARGB32_Premultiplied);
+
     QPainter painter(&scene_image_);
     painter.fillRect(scene_image_.rect(), Qt::black);
+
+    if (!valid_image) {
+        emit done(scene_image_);
+        return;
+    }
+
+    std::vector<point3D> pixMatrix = new_renderer.RenderOnCpu(new_scene, thread_count_);
+
     int i = 0;
     for(point3D & pixel: pixMatrix){
         QColor newColor;
