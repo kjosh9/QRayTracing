@@ -79,6 +79,12 @@ Item {
         anchors.leftMargin: 10
         spacing: 10
 
+        Text {
+            text: "CPU Cores: "
+            color: "black"
+            anchors.verticalCenter: parent.verticalCenter
+        }
+
         ComboBox {
             currentIndex: 2
             model: ListModel {
