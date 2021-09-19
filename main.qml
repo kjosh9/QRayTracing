@@ -9,6 +9,7 @@ Item {
     width: 1200
     visible: true
     property string scene_filename
+    property bool rendered: false;
     signal saveFileNoName()
     signal saveFile(string filename)
     signal setThreadCount(int threads)
@@ -20,6 +21,7 @@ Item {
         nameFilters: [ "Json files (*.json)", "All files (*)" ]
         onAccepted: {
             console.log("Accepted: " + fileUrls)
+            root.rendered = false
             root.scene_filename = fileUrl
         }
     }
@@ -113,8 +115,9 @@ Item {
             radius: 5
             onClicked: {
                 rendered_image.source = "image://rendered_image/" + root.scene_filename
+                root.rendered = true
             }
-            enabled: root.scene_filename.length > 0
+            enabled: root.scene_filename.length > 0 && !root.rendered
         }
         Text {
             id: filename_display
